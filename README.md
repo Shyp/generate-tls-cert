@@ -22,7 +22,16 @@ go get github.com/Shyp/generate-tls-cert
 
 ## Usage
 
-```bash
+Running `go run generate.go` will give you nine files. Three of them are the
+most important:
+
+- `root.pem`: The public key of the root CA. Add this as a CA in clients to
+connect to your self-signed server (see "Client" below).
+
+- `leaf.key` and `leaf.pem` - The public and private key for terminating TLS
+  with your self signed certificate.
+
+```
 $ go run generate.go --host=localhost,127.0.0.1
 Successfully generated certificates! Here's what you generated.
 
@@ -62,15 +71,18 @@ Here's how to make requests that validate, using your new TLS certificates.
 ### Go
 
 ```go
+rootPEM, err := ioutil.ReadFile("path/to/root.pem")
+if err != nil {
+	log.Fatal(err)
+}
 roots := x509.NewCertPool()
-// contents of root.pem
-ok := roots.AppendCertsFromPEM([]byte(rootPEM))
+ok := roots.AppendCertsFromPEM(rootPEM)
 if !ok {
-    panic("failed to parse root certificate")
+	panic("failed to parse root certificate")
 }
 
 // Use the tls.Config here in http.Transport.TLSClientConfig
-conn, err := tls.Dial("tcp", "mail.google.com:443", &tls.Config{
+conn, err := tls.Dial("tcp", "yourhost:yourport", &tls.Config{
     RootCAs: roots,
 })
 if err != nil {
