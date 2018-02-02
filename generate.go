@@ -1,5 +1,4 @@
-// This program generates a number of testing certificates.
-
+// generate-tls-cert generates root, leaf, and client TLS certificates.
 package main
 
 import (
@@ -24,10 +23,17 @@ var (
 	host      = flag.String("host", "", "Comma-separated hostnames and IPs to generate a certificate for")
 	validFrom = flag.String("start-date", "", "Creation date formatted as Jan 1 15:04:05 2011 (default now)")
 	validFor  = flag.Duration("duration", 365*24*time.Hour, "Duration that certificate is valid for")
+	version   = flag.Bool("version", false, "Print the version string")
 )
+
+const Version = "0.1"
 
 func main() {
 	flag.Parse()
+	if *version {
+		fmt.Fprintf(os.Stderr, "generate-tls-cert version %s\n", Version)
+		os.Exit(2)
+	}
 	if len(*host) == 0 {
 		log.Fatalf("Missing required --host parameter")
 	}
