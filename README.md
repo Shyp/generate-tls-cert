@@ -127,7 +127,7 @@ curl --cacert path/to/root.pem https://yourhost:yourport
 ### OpenSSL
 
 ```bash
-/usr/local/Cellar/openssl@1.1/1.1.0g/bin/openssl s_client -showcerts -servername localhost -CAfile path/to/root.pem -connect yourhost:yourport
+openssl s_client -showcerts -servername localhost -CAfile path/to/root.pem -connect yourhost:yourport
 ```
 
 ## Server Side
