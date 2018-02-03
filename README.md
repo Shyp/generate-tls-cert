@@ -22,7 +22,7 @@ go get github.com/Shyp/generate-tls-cert
 
 ## Usage
 
-Running `go run generate.go` will give you nine files. Three of them are the
+Running `generate-tls-cert` will give you nine files. Three of them are the
 most important:
 
 - `root.pem`: The public key of the root CA. Add this as a CA in clients to
@@ -32,7 +32,7 @@ connect to your self-signed server (see "Client" below).
   with your self signed certificate.
 
 ```
-$ go run generate.go --host=localhost,127.0.0.1
+$ generate-tls-cert --host=localhost,127.0.0.1
 Successfully generated certificates! Here's what you generated.
 
 # Root CA
@@ -98,9 +98,8 @@ var fs = require('fs');
 var https = require('https');
 
 var get = https.request({
-  path: '/', hostname: '127.0.0.1', port: 9374,
-  ca: fs.readFileSync('/Users/kevin/src/github.com/Shyp/ballast/root.pem'),
-  //cert: fs.readFileSync('/Users/kevin/src/github.com/Shyp/ballast/cert.pem'),
+  path: '/', hostname: 'yourhost', port: yourport,
+  ca: fs.readFileSync('path/to/root.pem'),
   agent: false,
   rejectUnauthorized: true,
 }, function(response) {
