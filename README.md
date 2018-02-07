@@ -64,6 +64,24 @@ client.key: Secret key for TLS client authentication
 client.pem: Public key for TLS client authentication
 ```
 
+Add the following instructions to your Makefile, and all your users will have to
+do to get started is run `make generate_cert` to download the binary and load
+TLS certificates.
+
+```make
+GENERATE_TLS_CERT = $(GOPATH)/bin/generate-tls-cert
+
+$(GENERATE_TLS_CERT):
+	go get -u github.com/Shyp/generate-tls-cert
+
+certs/leaf.pem: | $(GENERATE_TLS_CERT)
+	mkdir -p certs
+	cd certs && $(GENERATE_TLS_CERT) --host=localhost,127.0.0.1
+
+# Generate TLS certificates for local development.
+generate_cert: certs/leaf.pem | $(GENERATE_TLS_CERT)
+```
+
 ## Client Side
 
 Here's how to make requests that validate, using your new TLS certificates.
