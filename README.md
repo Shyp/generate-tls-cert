@@ -14,6 +14,9 @@ This script modifies `crypto/tls/generate_cert.go` slightly:
 
 - Better usage instructions are generated.
 
+Credit comes from [Adam Langley](https://www.imperialviolet.org/), who provided
+the initial version of this script on a golang-nuts message thread.
+
 ## Installation
 
 ```bash
