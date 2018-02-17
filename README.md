@@ -144,6 +144,15 @@ get.end();
 curl --cacert path/to/root.pem https://yourhost:yourport
 ```
 
+### Python Requests
+
+```python
+import requests
+
+r = requests.get("https://yourhost:yourport", verify='root.pem')
+print(r.status_code)
+```
+
 ### OpenSSL
 
 ```bash
@@ -160,7 +169,7 @@ architectures.
 Start the Go server with the leaf public and private keys.
 
 ```go
-http.ListenAndServeTLS("leaf.pem", "leaf.key")
+http.ListenAndServeTLS(":7252", "leaf.pem", "leaf.key", nil)
 ```
 
 ### Node.js
